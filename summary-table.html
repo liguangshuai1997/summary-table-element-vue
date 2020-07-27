@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>AdminLTE 2 | Morris.js Charts</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+
+<body class="">
+
+  <div id="demo">
+    <el-table :data="tableData6" border max-height="400" style="width: 100%; margin-top: 20px">
+      <el-table-column prop="id" label="ID" width="180">
+      </el-table-column>
+      <el-table-column prop="name" label="姓名">
+      </el-table-column>
+      <el-table-column prop="amount1" label="数值 1（元）">
+      </el-table-column>
+      <el-table-column prop="amount3" label="数值 3（元）">
+      </el-table-column>
+    </el-table>
+  </div>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <script>
+    var demo = new Vue({
+      el: '#demo',
+      data: {
+        tableData6: [{
+          id: '12987122',
+          name: '王小虎',
+          amount1: '234',
+
+          amount3: 10
+        }, {
+          id: '12987123',
+          name: '王小虎',
+          amount1: '165',
+
+          amount3: 12
+        }, {
+          id: '12987124',
+          name: '王小虎',
+          amount1: '324',
+
+          amount3: 9
+        }, {
+          id: '12987125',
+          name: '王小虎',
+          amount1: '621',
+
+          amount3: 17
+        }, {
+          id: '12987126',
+          name: '王小虎',
+          amount1: '539',
+          amount3: 15
+        }]
+      },
+
+      methods: {
+        sum(data) {
+          if (data.length > 0) {
+            let keys = Object.keys(data[0])
+            const sums = {};
+            keys.forEach((column, index) => {
+              let property = column
+              if (index === 0) {
+                sums[column] = '总价';
+                return;
+              }
+              const values = data.map(item => Number(item[column]));
+              //验证每个value值是否是数字，如果是执行if
+              if (!values.every(value => isNaN(value))) {
+                sums[column] = values.reduce((prev, curr) => {
+                  return prev + curr;
+                }, 0);
+                sums[column] += ' 元';
+              } else {
+                sums[column] = 'N/A';
+              }
+              if (keys[keys.length - 1] === column) {
+                data.unshift(sums);
+              }
+            });
+          }
+        }
+      },
+      created() {
+        this.sum(this.tableData6)
+      }
+    })
+  </script>
+</body>
+
+</html>
